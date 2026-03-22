@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BarbrorCard™ | Every flip has a winner</title>
+  <meta name="description" content="BarbrorCard™ is a simple first card game for 2 to 4 players. Every flip has a winner, kids can learn real card play without mercy wins, and the player with the biggest won pile is the best." />
+  <meta name="keywords" content="BarbrorCard, card game, kids card game, family card game, first card game, playing cards" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://www.barbrorcard.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="BarbrorCard™ | Every flip has a winner" />
+  <meta property="og:description" content="A simple first card game for 2 to 4 players. Learn real card play without mercy wins." />
+  <meta property="og:url" content="https://www.barbrorcard.com/" />
+  <meta property="og:site_name" content="BarbrorCard" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="BarbrorCard™ | Every flip has a winner" />
+  <meta name="twitter:description" content="A simple first card game for 2 to 4 players where every flip has a winner." />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"BarbrorCard","alternateName":"BarbrorCard™","url":"https://www.barbrorcard.com/","description":"A simple first card game for 2 to 4 players where every flip has a winner."}</script>
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --bg1: #0c5d3d;
+      --bg2: #063a25;
+      --panel: rgba(255,255,255,0.08);
+      --panel-border: rgba(255,255,255,0.14);
+      --text-soft: #d8f5e8;
+      --gold: #ffd54f;
+      --gold-2: #ffe082;
+      --danger-bg: #ffcdd2;
+      --danger-text: #7f1010;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+      color: white;
+      padding: 20px;
+    }
+    .app {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      gap: 18px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.22);
+      backdrop-filter: blur(4px);
+    }
+    .hero {
+      position: relative;
+      z-index: 20;
+      overflow: visible;
+    }
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 2.3rem;
+      line-height: 1.05;
+    }
+    .tagline {
+      margin: 0;
+      color: var(--gold-2);
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .subtitle {
+      margin: 12px 0 0;
+      color: var(--text-soft);
+      line-height: 1.55;
+      max-width: 780px;
+    }
+    .info-wrap {
+      position: relative;
+      flex: 0 0 auto;
+      z-index: 50;
+    }
+    .info-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(255,255,255,0.16);
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+    }
+    .info-btn:hover,
+    .info-btn:focus-visible {
+      outline: none;
+      background: var(--gold);
+      color: #1e1e1e;
+    }
+    .info-pop {
+      position: absolute;
+      top: 46px;
+      right: 0;
+      width: min(420px, calc(100vw - 40px));
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(8, 22, 16, 0.98);
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 18px 36px rgba(0,0,0,0.32);
+      color: white;
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition: opacity 0.16s ease, transform 0.16s ease;
+      z-index: 100;
+    }
+    .info-wrap:hover .info-pop,
+    .info-wrap:focus-within .info-pop,
+    .info-wrap.open .info-pop {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .info-pop h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      color: var(--gold-2);
+    }
+    .info-pop p {
+      margin: 0 0 12px;
+      line-height: 1.5;
+      color: #ecfff4;
+      font-size: 0.96rem;
+    }
+    .info-pop .small {
+      margin-bottom: 0;
+      color: var(--text-soft);
+    }
+    .setup {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 14px;
+      align-items: end;
+    }
+    .label {
+      font-size: 0.9rem;
+      opacity: 0.88;
+      margin-bottom: 6px;
+    }
+    .pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .pill {
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .pill.active {
+      background: var(--gold);
+      color: #1e1e1e;
+      border-color: transparent;
+    }
+    .name-section {
+      display: grid;
+    }
+    .setup.game-started .name-section {
+      display: none;
+    }
+    .name-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .name-field {
+      display: grid;
+      gap: 6px;
+    }
+    .name-field input {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+    }
+    .name-field input::placeholder {
+      color: rgba(255,255,255,0.62);
+    }
+    .name-field input:focus-visible {
+      outline: 2px solid rgba(255, 213, 79, 0.65);
+      outline-offset: 1px;
+    }
+    .controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    button.action {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+    button.action:hover:not(:disabled) { transform: translateY(-1px); }
+    button.action:disabled { opacity: 0.55; cursor: not-allowed; }
+    .primary { background: var(--gold); color: #1e1e1e; }
+    .secondary { background: #e3f2fd; color: #0d47a1; }
+    .message {
+      padding: 16px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 1.04rem;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      line-height: 1.45;
+    }
+    .players-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      align-items: start;
+    }
+    .players-grid.count-3 .player-card:last-child {
+      grid-column: 1 / -1;
+      width: min(100%, 360px);
+      justify-self: center;
+    }
+    .player-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 18px;
+      padding: 16px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .player-card.round-winner {
+      box-shadow: 0 0 0 2px rgba(255, 213, 79, 0.55), 0 14px 26px rgba(0,0,0,0.22);
+      border-color: rgba(255, 213, 79, 0.65);
+    }
+    .player-card.game-winner {
+      background: linear-gradient(180deg, rgba(255,213,79,0.28), rgba(255,255,255,0.08));
+      border-color: rgba(255, 213, 79, 0.9);
+      box-shadow: 0 0 0 3px rgba(255,213,79,0.55), 0 18px 30px rgba(0,0,0,0.24);
+    }
+    .player-card.eliminated {
+      opacity: 0.72;
+    }
+    .player-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .player-name {
+      font-size: 1.18rem;
+      font-weight: 700;
+    }
+    .badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: rgba(255,255,255,0.12);
+      white-space: nowrap;
+    }
+    .badge.winner {
+      background: var(--gold);
+      color: #3f2a00;
+    }
+    .badge.out {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+    }
+    .player-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .mini {
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 10px;
+    }
+    .mini .mini-label {
+      font-size: 0.8rem;
+      opacity: 0.85;
+      margin-bottom: 4px;
+    }
+    .mini .mini-value {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+    .play-area {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .card-slot {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 152px;
+    }
+    .section-title {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      font-weight: 700;
+    }
+    .won-row-wrap {
+      display: grid;
+      gap: 8px;
+    }
+    .won-row {
+      overflow: visible;
+      padding-bottom: 2px;
+      min-height: 60px;
+    }
+    .won-row-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      row-gap: 12px;
+      max-width: 100%;
+      padding-right: 6px;
+    }
+    .won-row-inner .mini-card {
+      margin-right: -18px;
+      margin-bottom: 0;
+    }
+    .won-row-inner .mini-card:last-child {
+      margin-right: 0;
+    }
+    .card, .mini-card {
+      background: #fff;
+      color: #111;
+      border: 2px solid rgba(0,0,0,0.08);
+      border-radius: 16px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card {
+      width: 110px;
+      height: 150px;
+      padding: 12px;
+    }
+    .mini-card {
+      width: 36px;
+      height: 52px;
+      padding: 4px 4px 3px;
+      border-radius: 9px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .red { color: #c62828; }
+    .empty {
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.8);
+      border: 2px dashed rgba(255,255,255,0.25);
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+    .top, .bottom, .mini-top, .mini-bottom {
+      font-weight: 700;
+      line-height: 1;
+    }
+    .top, .bottom { font-size: 1.1rem; }
+    .mini-top, .mini-bottom { font-size: 0.42rem; }
+    .bottom, .mini-bottom {
+      align-self: flex-end;
+      transform: rotate(180deg);
+    }
+    .suit {
+      font-size: 2.25rem;
+      text-align: center;
+      line-height: 1;
+    }
+    .mini-suit {
+      font-size: 0.9rem;
+      text-align: center;
+      line-height: 1;
+    }
+    .battle-log {
+      margin: 0;
+      padding-left: 20px;
+      line-height: 1.6;
+      max-height: 290px;
+      overflow: auto;
+    }
+    .site-footer {
+      text-align: center;
+      color: var(--text-soft);
+      font-size: 0.88rem;
+      line-height: 1.5;
+      opacity: 0.95;
+      padding: 4px 8px 10px;
+    }
+    .site-footer a {
+      color: var(--gold-2);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .site-footer a:hover,
+    .site-footer a:focus-visible {
+      text-decoration: underline;
+    }
+    @media (max-width: 980px) {
+      .setup { grid-template-columns: 1fr; }
+      .name-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .players-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    }
+    @media (max-width: 640px) {
+      body { padding: 8px; }
+      .app { gap: 8px; }
+      .panel { padding: 10px; border-radius: 14px; }
+      h1 { font-size: 1.52rem; margin-bottom: 4px; }
+      .tagline { font-size: 0.94rem; }
+      .subtitle { font-size: 0.88rem; margin-top: 6px; line-height: 1.4; }
+      .hero-top { align-items: center; gap: 8px; }
+      .setup { gap: 8px; }
+      .controls { gap: 6px; }
+      button.action { padding: 9px 10px; font-size: 0.9rem; }
+      .message { padding: 10px; min-height: 42px; font-size: 0.92rem; }
+      .players-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .players-grid.count-3 .player-card:last-child {
+        grid-column: 1 / -1;
+        width: min(100%, 260px);
+      }
+      .player-card { padding: 10px; border-radius: 14px; }
+      .player-header { margin-bottom: 8px; gap: 8px; }
+      .player-name { font-size: 1rem; }
+      .badge { padding: 4px 8px; font-size: 0.72rem; }
+      .player-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 6px; }
+      .mini { padding: 6px; border-radius: 10px; }
+      .mini .mini-label { font-size: 0.66rem; margin-bottom: 2px; }
+      .mini .mini-value { font-size: 0.84rem; }
+      .play-area { gap: 6px; margin-bottom: 8px; }
+      .section-title { font-size: 0.76rem; }
+      .card-slot { min-height: 88px; }
+      .card { width: 62px; height: 88px; padding: 6px; border-radius: 10px; }
+      .top, .bottom { font-size: 0.74rem; }
+      .suit { font-size: 1.28rem; }
+      .mini-card { width: 24px; height: 35px; padding: 2px 2px 1px; border-radius: 7px; }
+      .mini-top, .mini-bottom { font-size: 0.28rem; }
+      .mini-suit { font-size: 0.56rem; }
+      .won-row { min-height: 38px; }
+      .won-row-inner { row-gap: 7px; }
+      .won-row-inner .mini-card { margin-right: -11px; }
+      .name-grid { grid-template-columns: 1fr; gap: 6px; }
+      .name-field { gap: 4px; }
+      .name-field input { padding: 8px 10px; border-radius: 10px; }
+      .label { margin-bottom: 4px; font-size: 0.8rem; }
+      .battle-log { max-height: 170px; font-size: 0.88rem; }
+      .site-footer { font-size: 0.74rem; padding-bottom: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="panel hero">
+      <div class="hero-top">
+        <div>
+          <h1>BarbrorCard™</h1>
+          <p class="tagline">Every flip has a winner.</p>
+          <p class="subtitle">
+            A simple first card game for 2 to 4 players built so kids can learn ranks, piles, ties, and winning without mercy wins.
+            Every round is real, every flip matters, and anyone can be the best.
+          </p>
+        </div>
+        <div class="info-wrap" id="infoWrap">
+          <button class="info-btn" id="infoBtn" aria-label="About and rules" aria-expanded="false">i</button>
+          <div class="info-pop" id="infoPop" role="dialog" aria-label="About and rules">
+            <h3>About</h3>
+            <p>
+              BarbrorCard is built on a simple idea: kids should learn cards through a real game, not through adults pretending to lose.
+              The rules are easy, the outcome is fair, and luck gives every player a genuine chance to win.
+              Every flip has a winner.
+            </p>
+            <h3>Rules</h3>
+            <p>
+              Choose 2, 3, or 4 players and add names if you want. The deck is dealt as evenly as possible. Jokers are used only when they help the deal come out even,
+              and jokers count as ace-high cards.
+            </p>
+            <p>
+              Every player flips the top card from their hand. The highest card wins the whole played pile.
+              If there is a draw, only the tied players flip one more card until one of them wins.
+              All played cards go into a separate won pile.
+            </p>
+            <p class="small">
+              When all hands are empty, the player with the biggest won pile is the best.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="setup" id="setupPanel">
+        <div>
+          <div class="label">Players</div>
+          <div class="pills" id="playerPills"></div>
+          <div class="name-section" id="nameSection">
+            <div class="label" style="margin-top: 12px;">Player names</div>
+            <div class="name-grid" id="nameGrid"></div>
+          </div>
+        </div>
+        <div class="controls">
+          <button class="action primary" id="startBtn">Start game</button>
+        </div>
+        <div class="controls">
+          <button class="action secondary" id="playRoundBtn">Play round</button>
+          <button class="action secondary" id="playAllBtn">Play all</button>
+          <button class="action secondary" id="restartBtn">Restart</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="message" id="message">Choose a player count, edit names if you want, and start the game.</div>
+    </section>
+
+    <section class="panel">
+      <div class="players-grid" id="playersGrid"></div>
+    </section>
+
+    <section class="panel">
+      <h2 style="margin-top:0;">Battle log</h2>
+      <ol class="battle-log" id="battleLog"></ol>
+    </section>
+
+    <section class="site-footer">
+      Hosted on GitHub • © BarbrorCard. All rights reserved. •
+      <a href="https://www.BarbrorCard.com" target="_blank" rel="noopener noreferrer">www.BarbrorCard.com</a> •
+      <a href="mailto:Hello@BarbrorCard.com">Hello@BarbrorCard.com</a>
+    </section>
+  </div>
+
+  <script>
+    const SUITS = ['♠', '♥', '♦', '♣'];
+    const RANKS = [
+      { label: '2', value: 2 }, { label: '3', value: 3 }, { label: '4', value: 4 },
+      { label: '5', value: 5 }, { label: '6', value: 6 }, { label: '7', value: 7 },
+      { label: '8', value: 8 }, { label: '9', value: 9 }, { label: '10', value: 10 },
+      { label: 'J', value: 11 }, { label: 'Q', value: 12 }, { label: 'K', value: 13 },
+      { label: 'A', value: 14 }
+    ];
+
+    let selectedPlayers = 2;
+    let players = [];
+    let gameOver = false;
+    let autoTimer = null;
+    let lastRoundWinnerId = null;
+    let gameWinnerIds = [];
+    let gameStarted = false;
+    let playerNameInputs = ['Player 1', 'Player 2', 'Player 3', 'Player 4'];
+
+    const playerPills = document.getElementById('playerPills');
+    const nameGrid = document.getElementById('nameGrid');
+    const startBtn = document.getElementById('startBtn');
+    const playRoundBtn = document.getElementById('playRoundBtn');
+    const playAllBtn = document.getElementById('playAllBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const messageEl = document.getElementById('message');
+    const playersGrid = document.getElementById('playersGrid');
+    const battleLog = document.getElementById('battleLog');
+    const infoWrap = document.getElementById('infoWrap');
+    const infoBtn = document.getElementById('infoBtn');
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function buildDeck(count) {
+      const deck = [];
+      for (const suit of SUITS) {
+        for (const rank of RANKS) {
+          deck.push({ suit, label: rank.label, value: rank.value });
+        }
+      }
+      if (count === 3) {
+        deck.push({ suit: '🃏', label: 'Joker', value: 14 });
+        deck.push({ suit: '🃏', label: 'Joker', value: 14 });
+      }
+      return shuffle(deck);
+    }
+
+    function cardText(card) {
+      if (!card) return '—';
+      return card.label === 'Joker' ? 'Joker' : `${card.label}${card.suit}`;
+    }
+
+    function addLog(text) {
+      const li = document.createElement('li');
+      li.textContent = text;
+      battleLog.prepend(li);
+    }
+
+    function renderNameInputs() {
+      nameGrid.innerHTML = '';
+      for (let i = 0; i < selectedPlayers; i++) {
+        const field = document.createElement('label');
+        field.className = 'name-field';
+        field.innerHTML = `<span class="label">Player ${i + 1}</span>`;
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.maxLength = 20;
+        input.placeholder = `Player ${i + 1}`;
+        input.value = playerNameInputs[i] || `Player ${i + 1}`;
+        input.addEventListener('input', () => {
+          playerNameInputs[i] = input.value;
+        });
+
+        field.appendChild(input);
+        nameGrid.appendChild(field);
+      }
+    }
+
+    function getPlayerName(index) {
+      const raw = (playerNameInputs[index] || '').trim();
+      return raw || `Player ${index + 1}`;
+    }
+
+    function renderPlayerPills() {
+      playerPills.innerHTML = '';
+      [2, 3, 4].forEach(count => {
+        const btn = document.createElement('button');
+        btn.className = `pill ${selectedPlayers === count ? 'active' : ''}`;
+        btn.textContent = String(count);
+        btn.addEventListener('click', () => {
+          selectedPlayers = count;
+          renderPlayerPills();
+          renderNameInputs();
+        });
+        playerPills.appendChild(btn);
+      });
+    }
+
+    function createCardElement(card, small = false) {
+      const el = document.createElement('div');
+      const baseClass = small ? 'mini-card' : 'card';
+
+      if (!card) {
+        el.className = `${baseClass} empty`;
+        el.textContent = 'No card';
+        return el;
+      }
+
+      const isRed = card.suit === '♥' || card.suit === '♦';
+      el.className = `${baseClass} ${isRed ? 'red' : ''}`;
+
+      const corner = card.label === 'Joker' ? 'Jkr' : `${card.label}${card.suit}`;
+      const center = card.label === 'Joker' ? '🃏' : card.suit;
+
+      if (small) {
+        el.innerHTML = `
+          <div class="mini-top">${corner}</div>
+          <div class="mini-suit">${center}</div>
+          <div class="mini-bottom">${corner}</div>
+        `;
+      } else {
+        el.innerHTML = `
+          <div class="top">${card.label === 'Joker' ? 'Joker' : corner}</div>
+          <div class="suit">${center}</div>
+          <div class="bottom">${card.label === 'Joker' ? 'Joker' : corner}</div>
+        `;
+      }
+
+      return el;
+    }
+
+    function renderPlayers() {
+      playersGrid.className = `players-grid count-${players.length}`;
+      playersGrid.innerHTML = '';
+
+      players.forEach(player => {
+        const card = document.createElement('div');
+        const classes = ['player-card'];
+        if (player.hand.length === 0 && gameStarted && !gameOver) classes.push('eliminated');
+        if (player.id === lastRoundWinnerId) classes.push('round-winner');
+        if (gameWinnerIds.includes(player.id)) classes.push('game-winner');
+        card.className = classes.join(' ');
+
+        const badgeText = gameWinnerIds.includes(player.id)
+          ? 'Winner'
+          : player.hand.length === 0 && gameStarted && !gameOver
+            ? 'Out of cards'
+            : 'Playing';
+
+        const badgeClass = gameWinnerIds.includes(player.id)
+          ? 'badge winner'
+          : player.hand.length === 0 && gameStarted && !gameOver
+            ? 'badge out'
+            : 'badge';
+
+        card.innerHTML = `
+          <div class="player-header">
+            <div class="player-name">${player.name}</div>
+            <div class="${badgeClass}">${badgeText}</div>
+          </div>
+          <div class="player-stats">
+            <div class="mini">
+              <div class="mini-label">Hand</div>
+              <div class="mini-value">${player.hand.length}</div>
+            </div>
+            <div class="mini">
+              <div class="mini-label">Won pile</div>
+              <div class="mini-value">${player.won.length}</div>
+            </div>
+            <div class="mini">
+              <div class="mini-label">Last card</div>
+              <div class="mini-value">${cardText(player.lastCard)}</div>
+            </div>
+          </div>
+        `;
+
+        const playArea = document.createElement('div');
+        playArea.className = 'play-area';
+
+        const playedTitle = document.createElement('div');
+        playedTitle.className = 'section-title';
+        playedTitle.textContent = 'Current card';
+        playArea.appendChild(playedTitle);
+
+        const slot = document.createElement('div');
+        slot.className = 'card-slot';
+        slot.appendChild(createCardElement(player.lastCard, false));
+        playArea.appendChild(slot);
+
+        const wonWrap = document.createElement('div');
+        wonWrap.className = 'won-row-wrap';
+
+        const wonTitle = document.createElement('div');
+        wonTitle.className = 'section-title';
+        wonTitle.textContent = 'Won pile';
+        wonWrap.appendChild(wonTitle);
+
+        const wonRow = document.createElement('div');
+        wonRow.className = 'won-row';
+
+        const wonInner = document.createElement('div');
+        wonInner.className = 'won-row-inner';
+
+        if (player.won.length === 0) {
+          wonInner.appendChild(createCardElement(null, true));
+        } else {
+          player.won.forEach(wonCard => {
+            wonInner.appendChild(createCardElement(wonCard, true));
+          });
+        }
+
+        wonRow.appendChild(wonInner);
+        wonWrap.appendChild(wonRow);
+
+        card.appendChild(playArea);
+        card.appendChild(wonWrap);
+        playersGrid.appendChild(card);
+      });
+    }
+
+    function stopAuto() {
+      if (autoTimer) {
+        clearInterval(autoTimer);
+        autoTimer = null;
+      }
+      playAllBtn.textContent = 'Play all';
+    }
+
+    function dealHands() {
+      const deck = buildDeck(selectedPlayers);
+      players = [];
+
+      for (let i = 0; i < selectedPlayers; i++) {
+        players.push({
+          id: i,
+          name: getPlayerName(i),
+          hand: [],
+          won: [],
+          lastCard: null
+        });
+      }
+
+      deck.forEach((card, index) => {
+        players[index % selectedPlayers].hand.push(card);
+      });
+    }
+
+    function startGame() {
+      stopAuto();
+      dealHands();
+      gameOver = false;
+      gameStarted = true;
+      setupPanel.classList.add('game-started');
+      lastRoundWinnerId = null;
+      gameWinnerIds = [];
+      battleLog.innerHTML = '';
+      messageEl.textContent = 'Game started. He who is the best is!!: not decided yet.';
+      addLog(`New game started with ${selectedPlayers} players: ${players.map(player => player.name).join(', ')}.`);
+      renderPlayers();
+    }
+
+    function finishGame() {
+      gameOver = true;
+      stopAuto();
+
+      const maxWon = Math.max(...players.map(player => player.won.length));
+      const winners = players.filter(player => player.won.length === maxWon);
+      gameWinnerIds = winners.map(w => w.id);
+      lastRoundWinnerId = null;
+
+      if (winners.length === 1) {
+        messageEl.textContent = `He who is the best is!!: ${winners[0].name}. Winner is You!`;
+        addLog(`Game over: ${winners[0].name} wins with ${winners[0].won.length} cards. Winner is You!`);
+      } else {
+        const names = winners.map(w => w.name).join(', ');
+        messageEl.textContent = `He who is the best is!!: draw between ${names} with ${maxWon} cards each.`;
+        addLog(`Game over: draw between ${names}.`);
+      }
+
+      renderPlayers();
+    }
+
+    function playRound() {
+      if (!gameStarted || gameOver) return;
+
+      const contenders = players.filter(player => player.hand.length > 0).map(player => player.id);
+
+      if (contenders.length === 0) {
+        finishGame();
+        return;
+      }
+
+      const battlePile = [];
+      let active = [...contenders];
+      const parts = [];
+      let resolved = false;
+
+      while (!resolved) {
+        if (active.length === 0) {
+          parts.push('Nobody had another card');
+          break;
+        }
+
+        const played = [];
+
+        active.forEach(id => {
+          const player = players[id];
+          if (player.hand.length === 0) return;
+          const card = player.hand.shift();
+          player.lastCard = card;
+          battlePile.push(card);
+          played.push({ id, card });
+        });
+
+        if (played.length === 0) {
+          parts.push('Nobody could play');
+          break;
+        }
+
+        parts.push(played.map(entry => `${players[entry.id].name}: ${cardText(entry.card)}`).join(' | '));
+
+        const high = Math.max(...played.map(entry => entry.card.value));
+        const winners = played.filter(entry => entry.card.value === high);
+
+        if (winners.length === 1) {
+          const winner = players[winners[0].id];
+          winner.won.push(...battlePile);
+          lastRoundWinnerId = winner.id;
+          messageEl.textContent = `He who is the best is!!: ${winner.name}. ${parts.join(' || ')}`;
+          addLog(`He who is the best is!!: ${winner.name}. ${parts.join(' || ')} — pile won: ${battlePile.length} cards.`);
+          resolved = true;
+        } else {
+          parts.push('draw — tied players go again');
+          active = winners.map(entry => entry.id).filter(id => players[id].hand.length > 0);
+        }
+      }
+
+      renderPlayers();
+
+      const allHandsEmpty = players.every(player => player.hand.length === 0);
+      if (allHandsEmpty) {
+        setTimeout(finishGame, 120);
+      }
+    }
+
+    function togglePlayAll() {
+      if (!gameStarted || gameOver) return;
+
+      if (autoTimer) {
+        stopAuto();
+        return;
+      }
+
+      playAllBtn.textContent = 'Pause';
+      autoTimer = setInterval(() => {
+        if (gameOver) {
+          stopAuto();
+          return;
+        }
+        playRound();
+      }, 420);
+    }
+
+    startBtn.addEventListener('click', startGame);
+    playRoundBtn.addEventListener('click', playRound);
+    playAllBtn.addEventListener('click', togglePlayAll);
+    restartBtn.addEventListener('click', () => {
+      if (gameStarted) startGame();
+    });
+
+    infoBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const open = infoWrap.classList.toggle('open');
+      infoBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!infoWrap.contains(event.target)) {
+        infoWrap.classList.remove('open');
+        infoBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    renderPlayerPills();
+    renderNameInputs();
+    renderPlayers();
+  </script>
+</body>
+</html>
